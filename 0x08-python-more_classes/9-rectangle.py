@@ -9,11 +9,32 @@ class Rectangle:
      number_of_instances = 0
      print_symbol = "#"
 
+     @staticmethod
+    def bigger_or_equal(rect_1, rect_2):
+        """biggest rect"""
+        if type(rect_1) is not Rectangle:
+            raise TypeError("rect_1 must be an instance of Rectangle")
+        if type(rect_2) is not Rectangle:
+            raise TypeError("rect_2 must be an instance of Rectangle")
+        if rect_1.area() >= rect_2.area():
+            return rect_1
+        return rect_2
+
+     @classmethod
+    def square(cls, size=0):
+        """returns new rectangle instance"""
+        return cls(size, size)    
+
     def __init__(self, width=0, height=0):
         """Init rectangle"""
         self.height = height
         self.width = width
         Rectangle.number_of_instances += 1
+    
+    def __del__(self):
+        """prints something when rec is deleted"""
+        print("Bye rectangle...")
+        Rectangle.number_of_instances -= 1
 
     @property
     def width(self):
@@ -69,4 +90,7 @@ class Rectangle:
         """prints something when rec is deleted"""
         print("Bye rectangle...")
         Rectangle.number_of_instances -= 1
+
+
+
 
