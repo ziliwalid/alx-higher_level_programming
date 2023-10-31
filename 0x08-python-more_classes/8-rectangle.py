@@ -10,7 +10,7 @@ class Rectangle:
     number_of_instances = 0
     print_symbol = "#"
 
-     @staticmethod
+    @staticmethod
     def bigger_or_equal(rect_1, rect_2):
         """compares and returns biggest area"""
         if type(rect_1) is not Rectangle:
@@ -34,7 +34,7 @@ class Rectangle:
 
     @property
     def width(self):
-        """getter for private instance"""
+        """getter for private instance """
         return self.__width
 
     @width.setter
@@ -53,7 +53,7 @@ class Rectangle:
 
     @height.setter
     def height(self, value):
-        """setter height"""
+        """setter for height"""
         if type(value) is not int:
             raise TypeError("height must be an integer")
         if value < 0:
@@ -61,7 +61,7 @@ class Rectangle:
         self.__height = value
 
     def area(self):
-        """returns area of a rectangle"""
+        """returns area a rectangle"""
         return self.__width * self.__height
 
     def perimeter(self):
