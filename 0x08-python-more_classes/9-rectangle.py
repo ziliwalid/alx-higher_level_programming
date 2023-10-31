@@ -6,12 +6,18 @@ class rectangle
 
 class Rectangle:
     """rectangle"""
-     number_of_instances = 0
-     print_symbol = "#"
+
+    number_of_instances = 0
+    print_symbol = "#"
+
+    @classmethod
+    def square(cls, size=0):
+        """returns a square w/ h==w==size"""
+        return cls(size, size)
 
      @staticmethod
     def bigger_or_equal(rect_1, rect_2):
-        """biggest rect"""
+        """compares and returns biggest area"""
         if type(rect_1) is not Rectangle:
             raise TypeError("rect_1 must be an instance of Rectangle")
         if type(rect_2) is not Rectangle:
@@ -20,17 +26,12 @@ class Rectangle:
             return rect_1
         return rect_2
 
-     @classmethod
-    def square(cls, size=0):
-        """returns new rectangle instance"""
-        return cls(size, size)    
-
     def __init__(self, width=0, height=0):
         """Init rectangle"""
-        self.height = height
         self.width = width
+        self.height = height
         Rectangle.number_of_instances += 1
-    
+
     def __del__(self):
         """prints something when rec is deleted"""
         print("Bye rectangle...")
@@ -57,7 +58,7 @@ class Rectangle:
 
     @height.setter
     def height(self, value):
-        """setter for  height"""
+        """setter height"""
         if type(value) is not int:
             raise TypeError("height must be an integer")
         if value < 0:
@@ -65,11 +66,11 @@ class Rectangle:
         self.__height = value
 
     def area(self):
-        """calculates area of a rectangle"""
+        """returns area of a rectangle"""
         return self.__width * self.__height
 
     def perimeter(self):
-        """calculates perimeter of a rectangle"""
+        """returns perimeter of a rectangle"""
         if self.__width == 0 or self.__height == 0:
             return 0
         return (self.__width * 2) + (self.__height * 2)
@@ -81,16 +82,7 @@ class Rectangle:
             string += "\n".join(str(self.print_symbol) * self.__width
                                 for j in range(self.__height))
         return string
-    
+
     def __repr__(self):
         """does magic"""
         return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
-
-    def __del__(self):
-        """prints something when rec is deleted"""
-        print("Bye rectangle...")
-        Rectangle.number_of_instances -= 1
-
-
-
-
