@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 import json
-import turtle
 import csv
+import turtle
 
 """defining base model"""
+
 class Base:
     """describes the base
     """
@@ -22,27 +23,27 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
-     def to_json_string(list_dictionaries):
-        """Return the JSON serialization of a list of items.
+    def to_json_string(list_dictionaries):
+        """Return the JSON serialization of a list of items
         Args:
             list_dictionaries (list):list of items
         """
         if list_dictionaries is None or list_dictionaries == []:
             return "[]"
-        return json.dumps([item.to_dictionary() for item in list_dictionaries])
+        return json.dumps(list_dictionaries)
 
     @classmethod
-      def save_to_file(cls, list_objs):
+    def save_to_file(cls, list_objs):
         """serialises JSON
         Args:
             list_objs (list): list instances
         """
         filename = cls.__name__ + ".json"
         with open(filename, "w") as jsonfile:
-            if li is None:
+            if list_objs is None:
                 jsonfile.write("[]")
             else:
-                list_dicts = [instance.to_dictionary() for instance in list_objs]
+                list_dicts = [o.to_dictionary() for o in list_objs]
                 jsonfile.write(Base.to_json_string(list_dicts))
 
     @staticmethod
@@ -53,20 +54,23 @@ class Base:
         Returns:
             deserialises a JSON string
         """
-        if js is None or js == "[]":
+        if json_string is None or json_string == "[]":
             return []
-        return [cls.create(**d) for d in json.loads(json_string)]
+        return json.loads(json_string)
 
     @classmethod
     def create(cls, **dictionary):
-        """Return a class from a dictionary
+         """Return a class from a dictionary
         Args:
             **dictionary (dict): dictionary param
         """
         if dictionary and dictionary != {}:
-            new_instance = cls(1, 1) if cls.__name__ == "Rectangle" else cls(1)
-            new_instance.update(**dictionary)
-            return new_instance
+            if cls.__name__ == "Rectangle":
+                new = cls(1, 1)
+            else:
+                new = cls(1)
+            new.update(**dictionary)
+            return new
 
     @classmethod
     def load_from_file(cls):
@@ -78,7 +82,7 @@ class Base:
         try:
             with open(filename, "r") as jsonfile:
                 list_dicts = Base.from_json_string(jsonfile.read())
-                return list_dicts
+                return [cls.create(**d) for d in list_dicts]
         except IOError:
             return []
 
@@ -98,8 +102,8 @@ class Base:
                 else:
                     fieldnames = ["id", "size", "x", "y"]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-                for instance in list_objs:
-                    writer.writerow(instance.to_dictionary())
+                for obj in list_objs:
+                    writer.writerow(obj.to_dictionary())
 
     @classmethod
     def load_from_file_csv(cls):
@@ -115,7 +119,8 @@ class Base:
                 else:
                     fieldnames = ["id", "size", "x", "y"]
                 list_dicts = csv.DictReader(csvfile, fieldnames=fieldnames)
-                list_dicts = [dict([k, int(v)] for k, v in d.items()) for d in list_dicts]
+                list_dicts = [dict([k, int(v)] for k, v in d.items())
+                              for d in list_dicts]
                 return [cls.create(**d) for d in list_dicts]
         except IOError:
             return []
@@ -131,14 +136,14 @@ class Base:
         turt.screen.bgcolor("#b7312c")
         turt.pensize(3)
         turt.shape("turtle")
-        turt.color("#ffffff")
 
-        for rect in lr:
+        turt.color("#ffffff")
+        for rect in list_rectangles:
             turt.showturtle()
             turt.up()
             turt.goto(rect.x, rect.y)
             turt.down()
-            for _ in range(2):
+            for i in range(2):
                 turt.forward(rect.width)
                 turt.left(90)
                 turt.forward(rect.height)
@@ -146,12 +151,12 @@ class Base:
             turt.hideturtle()
 
         turt.color("#b5e3d8")
-        for sq in ls:
+        for sq in list_squares:
             turt.showturtle()
             turt.up()
             turt.goto(sq.x, sq.y)
             turt.down()
-            for _ in range(2):
+            for i in range(2):
                 turt.forward(sq.width)
                 turt.left(90)
                 turt.forward(sq.height)
@@ -159,4 +164,3 @@ class Base:
             turt.hideturtle()
 
         turtle.exitonclick()
-
