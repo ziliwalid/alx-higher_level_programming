@@ -13,6 +13,6 @@ SELECT DISTINCT `name`
 		     ON g.`id` = sg.`genre_id`
 
 		     INNER JOIN `tv_shows` AS t
-		     ON s.`show_id` = t.`id`
+		     ON sg.`show_id` = t.`id`
 		     WHERE t.`title` = "Dexter")
  ORDER BY g.`name`;
